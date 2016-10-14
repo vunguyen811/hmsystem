@@ -38,6 +38,28 @@ namespace API
             services.AddApplicationInsightsTelemetry(Configuration);
 
             services.AddMvc();
+
+            // Inject an implementation of ISwaggerProvider with defaulted settings applied
+            services.AddSwaggerGen();
+
+
+            // Add the detail information for the API.
+            services.ConfigureSwaggerGen(options =>
+            {
+                options.SingleApiVersion(new Swashbuckle.Swagger.Model.Info
+                {
+                    Version = "v1",
+                    Title = "HM System API",
+                    Description = "HM System ASP.NET Core Web API",
+                    TermsOfService = "None"
+                });
+
+                //Determine base path for the application.
+                //var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+
+                //Set the comments path for the swagger json and ui.
+                //options.IncludeXmlComments(basePath + "\\TodoApi.xml");
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline
@@ -54,6 +76,12 @@ namespace API
 
             //app.UseDefaultFiles();
             //app.UseStaticFiles();
+
+            // Enable middleware to serve generated Swagger as a JSON endpoint
+            app.UseSwagger();
+
+            // Enable middleware to serve swagger-ui assets (HTML, JS, CSS etc.)
+            app.UseSwaggerUi();
         }
     }
 }
