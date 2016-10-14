@@ -52,8 +52,8 @@ namespace API
 
             app.UseMvc();
 
-            app.UseDefaultFiles();
-            app.UseStaticFiles();
+            //app.UseDefaultFiles();
+            //app.UseStaticFiles();
         }
     }
 }
