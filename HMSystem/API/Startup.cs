@@ -37,6 +37,15 @@ namespace API
             // Add framework services.
             services.AddApplicationInsightsTelemetry(Configuration);
 
+            services.AddCors(options =>
+            {
+                options.AddPolicy("CorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader()
+                    .AllowCredentials());
+            });
+
             services.AddMvc();
 
             // Inject an implementation of ISwaggerProvider with defaulted settings applied
@@ -72,6 +81,7 @@ namespace API
 
             app.UseApplicationInsightsExceptionTelemetry();
 
+            app.UseCors("CorsPolicy");
             app.UseMvc();
 
             //app.UseDefaultFiles();
