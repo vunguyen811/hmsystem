@@ -21,7 +21,8 @@
     "Swashbuckle.SwaggerUi": "6.0.0-beta902",
     "HMS.Data": "1.0.0-*",
     "HMS.Service": "1.0.0-*",
-    "HMS.Core": "1.0.0-*"
+    "HMS.Core": "1.0.0-*",
+    "Microsoft.AspNetCore.Mvc.WebApiCompatShim": "1.0.1"
   },
 
   "tools": {
@@ -39,7 +40,8 @@
 
   "buildOptions": {
     "emitEntryPoint": true,
-    "preserveCompilationContext": true
+    "preserveCompilationContext": true,
+    "xmlDoc": true
   },
 
   "runtimeOptions": {
