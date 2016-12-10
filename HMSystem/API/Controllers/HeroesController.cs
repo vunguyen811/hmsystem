@@ -8,6 +8,7 @@ using HMS.Service.Business.Heros;
 using HMS.Core.Domain;
 using System.Collections.Generic;
 using System.Web.Http;
+using Microsoft.Extensions.Logging;
 
 // For more information on enabling Web API for empty projects, visit http://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,14 +23,17 @@ namespace API.Controllers
     public class HeroesController : ApiController
     {
         private readonly IHeroService _heroService;
+        private readonly ILogger<HeroesController> _logger;
 
         /// <summary>
         /// Ctor
         /// </summary>
         /// <param name="heroService"></param>
-        public HeroesController(IHeroService heroService)
+        /// <param name="logger"></param>
+        public HeroesController(IHeroService heroService, ILogger<HeroesController> logger)
         {
             _heroService = heroService;
+            _logger = logger;
         }
 
         /// <summary>

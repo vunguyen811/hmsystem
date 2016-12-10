@@ -1,6 +1,7 @@
 ﻿using HMS.Core.Domain;
 using HMS.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -12,13 +13,15 @@ namespace HMS.Service.Business.Heros
         #region Field
         private readonly HmsContext _context;
         private readonly DbSet<Hero> _heroDbSet;
+        private readonly ILogger<HeroService> _logger;
         #endregion
 
         #region Constructor
-        public HeroService(HmsContext context)
+        public HeroService(HmsContext context, ILogger<HeroService> logger)
         {
             _context = context;
             _heroDbSet = _context.Set<Hero>();
+            _logger = logger;
         }
         #endregion
 
@@ -69,8 +72,16 @@ namespace HMS.Service.Business.Heros
             if (keyword == null)
                 throw new ArgumentNullException("keyword");
             var query = "SELECT * FROM [Heroes] WHERE Id Like @p0 OR Name Like @p0";
-            var result = _heroDbSet.FromSql(query, "%" + keyword + "%").ToListAsync();
-            return result;
+            try
+            {
+                var result = _heroDbSet.FromSql(query, "%" + keyword + "%").ToListAsync();
+                return result;
+            }
+            catch (Exception ex)
+            {
+                //_logger.LogError(123, ex, "");
+                throw;
+            }
         }
 
         #endregion

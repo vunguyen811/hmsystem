@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using HMS.Service.Business.Heros;
 using Microsoft.Extensions.PlatformAbstractions;
 using System.IO;
+using Serilog;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace API
 {
@@ -25,6 +27,11 @@ namespace API
                 // This will push telemetry data through Application Insights pipeline faster, allowing you to view results immediately.
                 builder.AddApplicationInsightsSettings(developerMode: true);
             }
+
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Debug()
+                .WriteTo.RollingFile(Path.Combine(env.ContentRootPath, "log-{Date}.txt"))
+                .CreateLogger();
 
             builder.AddEnvironmentVariables();
             Configuration = builder.Build();
@@ -83,6 +90,7 @@ namespace API
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+            loggerFactory.AddSerilog();
 
             app.UseApplicationInsightsRequestTelemetry();
 
